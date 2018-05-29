@@ -37,9 +37,11 @@ map <C-x> :!ctags -R<CR>
 
 " nerdtree
 let NERDTreeWinPos = 'left'
-let NERDTreeWinSize = 28
+let NERDTreeWinSize = 25
 let NERDTreeIgnore = ['\.pyc']
 map <F3> :NERDTreeToggle<CR>
+
+map <C-l> :tabn<CR>
 
 " neocomplcache
 "let g:acp_enableAtStartup = 0
@@ -55,6 +57,7 @@ map <F3> :NERDTreeToggle<CR>
 let g:airline_powerline_fonts = 0
 let g:airline_theme = 'bubblegum'
 let g:airline#extensions#whitespace#enabled = 0
+let g:airline_powerline_fonts = 1
 
 " cpp build
 map <C-a> :call CppBuild()<CR>
@@ -99,6 +102,10 @@ set laststatus=2
 set cinoptions=g0
 set hlsearch
 set incsearch
+set ic
+
+" maxmempattern default 1000
+set maxmempattern=10000
 
 nnoremap <space> za
 
@@ -107,7 +114,11 @@ set t_Co=256
 set background=dark
 "colorscheme monokai
 colorscheme luna-term
+"colorscheme desert
+"colorscheme SolarizedDark
 
 "let g:solarized_termcolors=256
 "let g:solarized_visibility="high"
 "colorscheme solarized
+
+
