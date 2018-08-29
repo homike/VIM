@@ -24,10 +24,10 @@ Plugin 'notpratheek/vim-luna'
 Plugin 'altercation/vim-colors-solarized'
 
 "Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'rking/ag.vim'
-Plugin 'Chun-Yang/vim-action-ag'
+"Plugin 'rking/ag.vim'
+"Plugin 'Chun-Yang/vim-action-ag'
 "Plugin 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
-"Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'wsdjeg/FlyGrep.vim'
 
@@ -52,6 +52,7 @@ map <C-l> :tabn<CR>
 map <C-k> :tabnew<CR>
 " fzf
 map <C-p> :Files<CR>
+nnoremap <silent> <Leader>a :Ag<CR>
 
 " neocomplcache
 "let g:acp_enableAtStartup = 0
@@ -70,7 +71,7 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline_powerline_fonts = 1 
 
 " cpp build
-map <C-a> :call CppBuild()<CR>
+" map <C-a> :call CppBuild()<CR>
 function CppBuild()
     execute "!g++ % -Wall -std=c++11 -ggdb -gdwarf-2 -o %<"
 endfunction
@@ -142,9 +143,10 @@ set tabline=%!Vim_NeatTabLine()
 
 " Ag
 " Set mapleader
-let mapleader = ","
+" let mapleader = ","
 " for easy using sliver search
-nmap <leader>f :norm yiw<CR>:Ag! -t -Q "<C-R>""
+" nmap <leader>f :norm yiw<CR>:Ag! -t -Q "<C-R>""
+map <C-f> :norm yiw<CR>:Ag! -t -Q "<C-R>""
 " Locate and return character "above" current cursor position.
 function! LookUpwards()
     let column_num = virtcol('.')
@@ -211,7 +213,7 @@ set background=dark
 "colorscheme luna-term
 "colorscheme desert
 "colorscheme SolarizedDark
-colorscheme luna-term
+colorscheme luna-term 
 
 "
 "let g:solarized_termcolors=256
