@@ -1,0 +1,148 @@
+set nocompatible
+filetype off 
+
+set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/home/moyu/.fzf/
+call vundle#begin()
+
+" [tool]
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-sensible'
+Plugin 'majutsushi/tagbar'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-scripts/a.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'Shougo/neocomplcache.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'fatih/vim-go'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
+" colorscheme
+Plugin 'sickill/vim-monokai'
+Plugin 'notpratheek/vim-luna'
+Plugin 'altercation/vim-colors-solarized'
+
+"Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'rking/ag.vim'
+"Plugin 'Chun-Yang/vim-action-ag'
+"Plugin 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
+Plugin 'wsdjeg/FlyGrep.vim'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'rdnetto/YCM-Generator'
+Plugin 'SirVer/ultisnips'
+
+"[go to define test]
+"Plugin 'AndrewRadev/tagfinder.vim'
+"Plugin 'derekwyatt/vim-fswitch'
+Plugin 'chxuan/cpp-mode'
+
+call vundle#end()
+filetype plugin indent on
+
+" [tagbar]
+let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_width = 25
+let g:Lf_ShortcutF = '<C-P>'
+"map <c-[> g]
+map <F2> :Tagbar<CR>
+map <C-x> :!ctags -R<CR>
+" list all ctags
+
+" [nerdtree]
+let NERDTreeWinPos = 'left'
+let NERDTreeWinSize = 25
+let NERDTreeIgnore = ['\.pyc']
+map <F3> :NERDTreeToggle<CR>
+
+" [tab]
+map <C-l> :tabn<CR>
+map <C-k> :tabnew<CR>
+
+" [fzf]
+map <C-p> :Files<CR>
+nnoremap <silent> <Leader>a :Ag<CR>
+
+" [airline]
+let g:airline_powerline_fonts = 0
+let g:airline_theme = 'bubblegum'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_powerline_fonts = 1 
+
+" [cpp build]
+" map <C-a> :call CppBuild()<CR>
+function CppBuild()
+    execute "!g++ % -Wall -std=c++11 -ggdb -gdwarf-2 -o %<"
+endfunction
+
+" [ycm]
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py' 
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf=0
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+map <C-i> :GoToFunImpl<CR>
+
+function GotoDefine()
+    redir => s:messages
+    execute "YcmCompleter GoToDefinition"
+    redir END
+    let s:lastmsg=get(split(s:messages, "\n"), -1, "")
+    if s:lastmsg >= "RuntimeError: Can't jump to definition."
+       "echo "fail"
+       execute "YcmCompleter GoToDefinitionElseDeclaration"
+       execute "GoToFunImpl"
+    endif
+
+endfunction
+map <c-]> :call GotoDefine()<CR>
+
+" [golang]
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+au FileType go nmap <leader>w :GoImports<CR>
+au FileType go nmap <leader>s <Plug>(go-implements)
+
+" [basic]
+syntax on
+syntax enable
+
+set completeopt=longest,menu
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+set number
+set ruler
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set ts=4
+set expandtab
+set cindent
+set novisualbell
+set laststatus=2
+set cinoptions=g0
+set hlsearch
+set incsearch
+set ic
+set maxmempattern=10000
+
+nnoremap <space> za
+
+" [colorscheme]
+set t_Co=256
+set background=dark
+"colorscheme SolarizedDark
+colorscheme luna-term 
+
