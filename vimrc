@@ -37,11 +37,11 @@ Plugin 'MattesGroeger/vim-bookmarks'
 "Plugin 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 
 " [cpp]
-"Plugin 'octol/vim-cpp-enhanced-highlight'
-"Plugin 'vim-scripts/a.vim'
-"Plugin 'SirVer/ultisnips'
-"go to define test
-"Plugin 'chxuan/cpp-mode'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'vim-scripts/a.vim'
+Plugin 'SirVer/ultisnips'
+"""go to define test
+Plugin 'chxuan/cpp-mode'
 
 " [csharp]
 "Plugin 'Chiel92/vim-autoformat'
@@ -52,7 +52,7 @@ Plugin 'MattesGroeger/vim-bookmarks'
 " [other]
 "Plugin 'godlygeek/tabular'
 "Plugin 'plasticboy/vim-markdown'
-"Plugin 'rdnetto/YCM-Generator'
+Plugin 'rdnetto/YCM-Generator'
 
 
 call vundle#end()
@@ -138,12 +138,12 @@ nnoremap <silent> <leader>g :vimgrep/<C-R><C-W>/**/*.go <CR> :cw <CR>
 " close function prompt
 let g:ycm_auto_hover='' 
 
-"let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"let g:ycm_collect_identifiers_from_tags_files = 1
-"let g:ycm_confirm_extra_conf=0
-"let g:ycm_collect_identifiers_from_comments_and_strings = 1
-"let g:ycm_complete_in_strings=1
-"map <C-i> :GoToFunImpl<CR>
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf=0
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_complete_in_strings=1
+map <C-i> :GoToFunImpl<CR>
 
 "function GotoDefine()
 "    redir => s:messages
