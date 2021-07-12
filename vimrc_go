@@ -2,60 +2,105 @@ set nocompatible
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/home/moyu/.fzf/
+set rtp+=/root/.fzf
 call vundle#begin()
 
 " [tool]
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
+Plugin 'tagbar'
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/a.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'Shougo/neocomplcache.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'fatih/vim-go'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
 
-" colorscheme
+" [colorscheme]
 Plugin 'sickill/vim-monokai'
 Plugin 'notpratheek/vim-luna'
 Plugin 'altercation/vim-colors-solarized'
 
-"Plugin 'ctrlpvim/ctrlp.vim'
+" [go]
+Plugin 'fatih/vim-go'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
 Plugin 'rking/ag.vim'
-"Plugin 'Chun-Yang/vim-action-ag'
-"Plugin 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'wsdjeg/FlyGrep.vim'
-"Plugin 'octol/vim-cpp-enhanced-highlight'
-"Plugin 'rdnetto/YCM-Generator'
-"Plugin 'SirVer/ultisnips'
-"Plugin 'Chiel92/vim-autoformat'
 
-"[go to define test]
-"Plugin 'AndrewRadev/tagfinder.vim'
-"Plugin 'derekwyatt/vim-fswitch'
+Plugin 'MattesGroeger/vim-bookmarks'
+
+"Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'Chun-Yang/vim-action-ag'
+"Plugin 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
+
+" [cpp]
+"Plugin 'octol/vim-cpp-enhanced-highlight'
+"Plugin 'vim-scripts/a.vim'
+"Plugin 'SirVer/ultisnips'
+"""go to define test
 "Plugin 'chxuan/cpp-mode'
+
+" [csharp]
+"Plugin 'Chiel92/vim-autoformat'
+"Plugin 'OmniSharp/omnisharp-vim'
+"Plugin 'dispatch.vim'
+"Plugin 'dense-analysis/ale'
+
+" [other]
+"Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+"Plugin 'rdnetto/YCM-Generator'
+
 
 call vundle#end()
 filetype plugin indent on
+" [bookmark]
+let g:bookmark_sign = '☰'
+"" avoid nerdtree and bookmark conflic
+let g:bookmark_no_default_key_mappings = 1
+function! BookmarkMapKeys()
+    nmap mm :BookmarkToggle<CR>
+    nmap mi :BookmarkAnnotate<CR>
+    nmap mn :BookmarkNext<CR>
+    nmap mp :BookmarkPrev<CR>
+    nmap ma :BookmarkShowAll<CR>
+    nmap mc :BookmarkClear<CR>
+    nmap mx :BookmarkClearAll<CR>
+    nmap mkk :BookmarkMoveUp
+    nmap mjj :BookmarkMoveDown
+endfunction
+function! BookmarkUnmapKeys()
+    unmap mm
+    unmap mi
+    unmap mn
+    unmap mp
+    unmap ma
+    unmap mc
+    unmap mx
+    unmap mkk
+    unmap mjj
+endfunction
+autocmd BufEnter * :call BookmarkMapKeys()
+autocmd BufEnter NERD_tree_* :call BookmarkUnmapKeys()
+
 " [tagbar]
 let g:tagbar_ctags_bin = 'ctags'
 let g:tagbar_width = 25
 let g:Lf_ShortcutF = '<C-P>'
+let g:tagbar_autofocus = 1
 "map <c-[> g]
-map <F2> :Tagbar<CR>
-"map <C-x> :!ctags -R<CR>
+map <C-j> :Tagbar<CR>
+"map <C-j> :!ctags -R<CR>
 " list all ctags
 
 " [nerdtree]
 let NERDTreeWinPos = 'left'
 let NERDTreeWinSize = 25
 let NERDTreeIgnore = ['\.pyc']
-map <C-x> :NERDTreeToggle<CR>
+map <C-u> :NERDTreeToggle<CR>
 
 " [tab]
 map <C-l> :tabn<CR>
@@ -77,23 +122,36 @@ function CppBuild()
     execute "!g++ % -Wall -std=c++11 -ggdb -gdwarf-2 -o %<"
 endfunction
 
+" [Ag]
+map <C-r> :norm yiw<CR>:Ag! --go -t -Q -w "<C-R>""
+map <C-x> :norm yiw<CR>:/\<<C-R>"\>
+
+nnoremap <silent> <leader>g :vimgrep/<C-R><C-W>/**/*.go <CR> :cw <CR>
+"map <C-g> :norm yiw<CR>:/<C-R>"
+
+" [terminal]
+"map <C-g> :vs ter ++rows=10<CR>
+map <C-g> :vert ter<CR>
+"map <C-g> :vertical topright terminal<CR>
+"map <C-g> :vert copen<CR>
+
 " [cpp format]
 "let g:formatdef_my_cpp = '"astyle --style=attach --pad-oper --lineend=linux"'
 "let g:formatters_cpp = ['my_cpp']
 "au BufWrite * :Autoformat
 
 " [ycm]
+" close function prompt
+let g:ycm_auto_hover='' 
+
+" ycm remove
 "let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 "let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_confirm_extra_conf=0
 "let g:ycm_collect_identifiers_from_comments_and_strings = 1
 "let g:ycm_complete_in_strings=1
-"ycm error check close
-"let g:ycm_enable_diagnostic_signs = 0
-"let g:ycm_enable_diagnostic_highlighting = 0
-
 "map <C-i> :GoToFunImpl<CR>
-"
+
 "function GotoDefine()
 "    redir => s:messages
 "    execute "YcmCompleter GoToDefinition"
@@ -107,6 +165,9 @@ endfunction
 "
 "endfunction
 "map <c-]> :call GotoDefine()<CR>
+let g:ycm_semantic_triggers =  {
+  \   'go' : ['.' , 're!\w{2}'],
+  \ }
 
 " [golang]
 let g:go_highlight_functions = 1
@@ -117,18 +178,45 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 
+" let g:go_def_mode = 'gopls'
+" let g:go_info_mode ='gopls'
+" let g:go_referrers_mode = 'gopls'
+
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>t <Plug>(go-test -v *.go)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 
 au FileType go nmap <leader>w :GoImports<CR>
 au FileType go nmap <leader>s <Plug>(go-implements)
 
+
+" [csharp]
+"let g:OmniSharp_server_use_mono = 1
+"let g:OmniSharp_server_stdio = 1
+"let g:OmniSharp_highlight_types = 3
+"
+"let g:formatdef_my_custom_cs = '"astyle --mode=cs --style=ansi -pcHs4"'
+"let g:formatters_cs = ['my_custom_cs']
+"let g:ale_linters = {
+"\ 'cs': ['OmniSharp']
+"\}
+""let g:OmniSharp_selector_ui = 'unite'  " Use unite.vim
+"let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+"let g:OmniSharp_selector_ui = 'fzf'    " Use fzf.vim
+"let g:OmniSharp_selector_ui = ''       " Use vim - command line, quickfix etc.
+"
+"let g:ycm_show_diagnostics_ui = 0 
+"map <c-]> :OmniSharpGotoDefinition<CR>
+
 " [ale]
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_insert_leave = 0
+"let g:ale_lint_on_enter = 0
+"let g:ale_lint_on_save = 0
+
+" [markdown]
+let g:vim_markdown_folding_disabled = 1
 
 " [basic]
 syntax on
@@ -151,6 +239,9 @@ set hlsearch
 set incsearch
 set ic
 set maxmempattern=10000
+" 设置下方分割
+" set nosplitright 
+" set splitbelow
 
 nnoremap <space> za
 
@@ -159,5 +250,4 @@ set t_Co=256
 set background=dark
 "colorscheme SolarizedDark
 colorscheme luna-term
-
 
